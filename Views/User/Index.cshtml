@@ -1,0 +1,94 @@
+﻿@model IEnumerable<CompanyBranding.ViewModel.CustomerVM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h3 class="card-title"> Reports </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Action </th>
+                                    <th>
+                                        @Html.DisplayName("Name")
+                                      @*  @Html.DisplayNameFor(model => model.name )*@
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Company Name")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("DBA")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Phone")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName("Owner Name")
+                                    </th>
+                                  
+                                    
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @*@Html.DisplayFor(modelItem => item.id)*@
+                                        @Html.ActionLink("Edit", "Edit", "User",new { id = item.id }, new { @class = "" }) |
+                                        @Html.ActionLink("Details", "Details", "User" , new { id = item.id }, new { @class = "" }) 
+                                     
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.company_name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.dba)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.phone)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.owner_name)
+                                    </td>
+
+
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+
+
