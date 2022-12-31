@@ -30,7 +30,6 @@ namespace CompanyBranding.Repositary
         public bool PostCustomer(CustomViewModel _customViewModel )
         {
             var _customerVM = _customViewModel.CustomerVM;
-           // var _customerFiles = _customViewModel.files;
               Customer _customer = new Customer();
             _customer.name = _customerVM.name;
             _customer.company_name = _customerVM.company_name;
@@ -47,14 +46,8 @@ namespace CompanyBranding.Repositary
             {
                 _customer.family_member = _customerVM.family_member;
             }
-
             _customer.contact_person = _customerVM.contact_person;
             _customer.referred_by = _customerVM.referred_by;
-
-
-
-
-
             if (_customerVM.chbAmount1 == true)
             {
                 _customer.amount_first = 0;
@@ -64,7 +57,6 @@ namespace CompanyBranding.Repositary
             {
                 _customer.amount_first = Convert.ToDouble( _customerVM.amount_first);
                 _customer.receiving_date_first = _customerVM.receiving_date_first;
-
             }
             if (_customerVM.chbAmount2 == true)
             {
@@ -77,21 +69,15 @@ namespace CompanyBranding.Repositary
                 _customer.receiving_date_second = _customerVM.receiving_date_second;
             }
 
-
             _dbContext.Customers.Add(_customer);
             _dbContext.SaveChanges();
 
-            List<CustomerRecord> _customerRecords = new List<CustomerRecord>();
-
             CustomerRecord customerRecord = new CustomerRecord();
-
             for(int i=0; i< _customViewModel.record.Count; i++)
             {
                 string _filePath = null;
                 customerRecord.record_id = _customViewModel.record[i].id;
                 customerRecord.customer_id = _customer.id;
-
-
                 bool fileStatus = _customViewModel.record[i].chbFile;
                 HttpPostedFileBase _file = _customViewModel.record[i].fileUpload;
                 if (fileStatus == false)
@@ -100,22 +86,15 @@ namespace CompanyBranding.Repositary
                 }
                 customerRecord.filePath = _filePath;
                 _dbContext.CustomerRecords.Add(customerRecord);
-                _customerRecords.Add(customerRecord);
                 _dbContext.SaveChanges();
-
             }
-            //_dbContext.CustomerRecords.AddRange(_customerRecords);
-            //_dbContext.SaveChanges();
-            sendEmail(_customer.id, _customer.email, _customer.name);
+           // sendEmail(_customer.id, _customer.email, _customer.name);
 
             return true;
-
         }
 
         public bool PutCustomer(CustomViewModel _customViewModel)
-
         {
-
             Customer _customer = _dbContext.Customers.Find(_customViewModel.CustomerVM.id);
             _customer.id = _customViewModel.CustomerVM.id;
             _customer.name = _customViewModel.CustomerVM.name;
@@ -133,14 +112,8 @@ namespace CompanyBranding.Repositary
             {
                 _customer.family_member = _customViewModel.CustomerVM.family_member;
             }
-            
             _customer.contact_person = _customViewModel.CustomerVM.contact_person;
             _customer.referred_by = _customViewModel.CustomerVM.referred_by;
-
-           
-            
-
-           
             if(_customViewModel.CustomerVM.chbAmount1 == true)
             {
                 _customer.amount_first = 0;
@@ -150,7 +123,6 @@ namespace CompanyBranding.Repositary
             {
                 _customer.amount_first = Convert.ToDouble(_customViewModel.CustomerVM.amount_first);
                 _customer.receiving_date_first = _customViewModel.CustomerVM.receiving_date_first;
-
             }
             if (_customViewModel.CustomerVM.chbAmount2 == true)
             {
@@ -162,23 +134,13 @@ namespace CompanyBranding.Repositary
                 _customer.amount_second = Convert.ToDouble(_customViewModel.CustomerVM.amount_second);
                 _customer.receiving_date_second = _customViewModel.CustomerVM.receiving_date_second;
             }
-       
-            
-           
             List<CustomerRecord> _customerRecords = new List<CustomerRecord>();
-
-           
-
-
-
             for (int i = 0; i < _customViewModel.record.Count; i++)
             {
                 CustomerRecord customerRecord = new CustomerRecord();
                 string _filePath = null;
                 customerRecord.record_id = _customViewModel.record[i].id;
                 customerRecord.customer_id = _customer.id;
-
-
                 bool fileStatus = _customViewModel.record[i].chbFile;
                 HttpPostedFileBase _file = _customViewModel.record[i].fileUpload;
                 if (fileStatus == false)
@@ -186,24 +148,12 @@ namespace CompanyBranding.Repositary
                     _filePath = SaveFile(_customer.id, _file);
                 }
                 customerRecord.filePath = _filePath;
-               
                 _customerRecords.Add(customerRecord);
-                
-
             }
-
-            
-              
             _customer.customerRecords = _customerRecords;
             _dbContext.SaveChanges();
-
-            //_dbContext.CustomerRecords.AddRange(_customerRecords);
-            //_dbContext.SaveChanges();
            // sendEmail(_customer.id, _customer.email, _customer.name);
-
-
             return true;
-
         }
         
         public string SaveFile(Guid _customerId , HttpPostedFileBase _file)
@@ -214,19 +164,15 @@ namespace CompanyBranding.Repositary
             } 
             else
             {
-                //string _uploadPath = ConfigurationManager.AppSettings["UploadPath"].ToString();
                 string _uploadPath = HttpContext.Current.Server.MapPath("~/Asset/");
                 string _fileExtension = Path.GetExtension(_file.FileName);
-
                 string _dir = _uploadPath + _customerId;
                 if (!Directory.Exists(_dir))
                 {
                     Directory.CreateDirectory(_dir);
                 }
                 string _filePath = _dir + "\\" + _file.FileName.Replace(" ", "");
-
                 _file.SaveAs(_filePath);
-
                 string fileName = "/Asset/" + _customerId + "/" + _file.FileName.Replace(" ", "");
                 return fileName;
             }
@@ -262,6 +208,5 @@ namespace CompanyBranding.Repositary
             smtpClient.Credentials = new System.Net.NetworkCredential(emailIdFrom, password);
             smtpClient.Send(msg);
         }
-
     }
 }

@@ -53,13 +53,10 @@ namespace CompanyBranding.Controllers.UserDetails
                 var model = _userRepo.GetDetailById(id);
                 return View(model);
             }
-
-            
         }
       
         public ActionResult Update(CustomViewModel customerVM)
         {
-                
             var _email = Session["useremail"];
             if (_email == null)
             {
@@ -71,12 +68,10 @@ namespace CompanyBranding.Controllers.UserDetails
                 _customerRepo.PutCustomer(customerVM);
                 return RedirectToAction("Index");
             }
-
         }
 
         public ActionResult Details( Guid id)
         {
-           
             var _email = Session["useremail"];
             if (_email == null)
             {

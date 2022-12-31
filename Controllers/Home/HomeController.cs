@@ -28,9 +28,6 @@ namespace CompanyBranding.Controllers.Home
 
             CustomViewModel customViewModel = new CustomViewModel();
             customViewModel.record = _customerRepo.GetRecord();
-            
-
-
             return View(customViewModel);
         }
         [AcceptVerbs(HttpVerbs.Post)]
@@ -41,7 +38,6 @@ namespace CompanyBranding.Controllers.Home
                 if (ModelState.IsValid)
                 {
                     bool status = _customerRepo.PostCustomer(_customerVM);
-
                     return RedirectToAction("ThankYou");
                 }
 
@@ -55,7 +51,6 @@ namespace CompanyBranding.Controllers.Home
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
@@ -63,12 +58,10 @@ namespace CompanyBranding.Controllers.Home
         public ActionResult ThankYou()
         {
             return View();
-
         }
 
         public ActionResult User(Guid userId)
         {
-
             return View();
         }
     }
